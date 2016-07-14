@@ -1,3 +1,8 @@
+bin/
+python.2,7
+pip-selfcheck.json
+include/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
