@@ -13,7 +13,7 @@ while True:
 
     if baseMessage != currentMessage:
 
-        print '[+] new message: %s' % currentMessage
+        #print '[+] new message: %s' % currentMessage
 
         if keywordMonitor('karen',currentMessage) == True: 
             # Disregard comma after karen
@@ -26,14 +26,14 @@ while True:
                 query = currentMessage['msg'][17:]
                 msg = 'Searching for query: %s...' % query
                 sendMessage(msg)
-                print '[+] sending message: %s' % msg
+                #print '[+] sending message: %s' % msg
 
                 results = searchFor(query)
                 # No results found
                 if results is None:
                     msg = 'No one has mentioned \"%s\" so far.' % query
                     sendMessage(msg)
-                    print '[+] sending message: %s' % msg
+                    #print '[+] sending message: %s' % msg
                 #Send a message with the results
                 else:
                     msg = '' #reset the message variable
@@ -41,7 +41,7 @@ while True:
                         # double slash is needed to escape in JSON
                         msg += "{0}: {1} \\n".format(result['user'], result['msg'])
                     sendMessage(msg) 
-                    print '[+] sending message: %s' % msg
+                    #print '[+] sending message: %s' % msg
 
             # no direction
             else:
@@ -50,4 +50,4 @@ while True:
         
         baseMessage = currentMessage
     else:
-        print '[+] current message unchanged: %s' % currentMessage
+        #print '[+] current message unchanged: %s' % currentMessage

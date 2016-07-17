@@ -76,7 +76,7 @@ def searchFor(query):
     #print "allMessages:", messages
     resultSet = []
     if type(messages) != list:
-        print '[+] Error! Query \'messages is not a list.\''
+        #print '[+] Error! Query \'messages is not a list.\''
         return None
 
     for message in messages:
