@@ -3,5 +3,7 @@ from lib import *
 #############################################
 # FIRING RANGE
 #############################################
-#sendRandomGIF('momo avatar')
-sendMessage('OK first things first I\'ll eat your brains')
+#sendRandomGIF('snoop dogg')
+#sendMessage('karen karen karen')
+
+print allMessages()
