@@ -23,7 +23,7 @@ def lastMessage():
     user = r.json()['response']['messages'][0]['name']
     return {'user':user,'msg':msg,'timestamp':timestamp,'msg_id':msg_id}
 
-# get last message
+# get last messages
 def allMessages():
 
     chat_history = []
@@ -72,22 +72,24 @@ def keywordMonitor(query, lastMsg):
 # ]
 
 def searchFor(query):
-    #messages = allMessages()
-    messages = [{"user":"Sam Joseph","msg":"I like pandas"},{"user":"Aaron DeVera","msg":"I like gummy bears"}]
+    messages = allMessages()
+    #print "allMessages:", messages
     resultSet = []
     if type(messages) != list:
         print '[+] Error! Query \'messages is not a list.\''
         return None
 
     for message in messages:
-        if query in message['msg']:
-            resultSet.append(message)
+        if message['msg'] is not None:
+            if query.lower() in message['msg'].lower():
+                message['msg'] = message['msg'].replace('\n','\\n')
+                resultSet.append(message)
 
     #No results found. Returning none.
     if resultSet == []:
         return None
 
-    print "resultSet: ", resultSet
+    #print "resultSet: ", resultSet
     return resultSet
 
 # messaging functions
