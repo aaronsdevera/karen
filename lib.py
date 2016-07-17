@@ -4,7 +4,6 @@ from keys import keys
 access_token = keys['token']
 group_token = keys['group']
 bot_id_token = keys['bot_id']
-monitoring_url = 'https://api.groupme.com/v3/groups/%s/messages?token=%s&limit=1' % (group_token,access_token)
 payload_url = 'https://api.groupme.com/v3/bots/post'
 
 #############################################
@@ -16,10 +15,41 @@ payload_url = 'https://api.groupme.com/v3/bots/post'
 
 # get last message
 def lastMessage():
-    r = requests.get(monitoring_url)
+    monitoring_url_latest = 'https://api.groupme.com/v3/groups/%s/messages?token=%s&limit=1' % (group_token,access_token)
+    r = requests.get(monitoring_url_latest)
+    msg_id = r.json()['response']['messages'][0]['id']
+    timestamp = r.json()['response']['messages'][0]['created_at']
     msg = r.json()['response']['messages'][0]['text']
     user = r.json()['response']['messages'][0]['name']
-    return {'user':user,'msg':msg}
+    return {'user':user,'msg':msg,'timestamp':timestamp,'msg_id':msg_id}
+
+# get last message
+def allMessages():
+
+    chat_history = []
+    count = 0
+
+    allMessageCount = requests.get('https://api.groupme.com/v3/groups/%s?token=%s' % (group_token,access_token)).json()['response']['messages']['count']
+    latestMessage = lastMessage()
+    baseMessage = {'count':count,'user':latestMessage['user'],'msg':latestMessage['msg'],'timestamp':latestMessage['timestamp'],'msg_id':latestMessage['msg_id']}
+    chat_history.append(baseMessage)
+    count += 1
+
+    while count < allMessageCount:
+        lastID = chat_history[-1]['msg_id']
+        monitoring_url_max_with_id = 'https://api.groupme.com/v3/groups/%s/messages?token=%s&limit=100&before_id=' % (group_token,access_token)
+        r = requests.get(monitoring_url_max_with_id+lastID)
+        messageBucket = r.json()['response']['messages']
+        for each in messageBucket:
+            msg_id = each['id']
+            timestamp = each['created_at']
+            msg = each['text']
+            user = each['name']
+            message_history_row = {'count':count,'user':user,'msg':msg,'timestamp':timestamp,'msg_id':msg_id}
+            chat_history.append(message_history_row)
+            count += 1
+
+    return chat_history
 
 # monitor for keyword
 def keywordMonitor(query):
