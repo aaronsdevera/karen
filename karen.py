@@ -5,13 +5,13 @@ from lib import *
 #############################################
 #sendRandomGIF('momo avatar')
 
-baseMessaage = lastMessage()
+baseMessage = lastMessage()
 
 while True:
     
     currentMessage = lastMessage()
 
-    if baseMessaage != currentMessage:
+    if baseMessage != currentMessage:
 
         print '[+] new message: %s' % currentMessage
 
@@ -33,6 +33,6 @@ while True:
                 msg = 'Yes, %s?' % lastMessage()['user']
                 sendMessage(msg)
         
-        baseMessaage = currentMessage
+        baseMessage = currentMessage
     else:
         print '[+] current message unchanged: %s' % currentMessage
