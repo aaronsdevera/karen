@@ -101,10 +101,6 @@ def compileMessage(bot_id, msg):
 def compilePictureMessage(bot_id, msg, img_url):
     return '{"bot_id":"%s","text":"%s","attachments":[{"type":"image","url":"%s"}]}' % (bot_id,msg,img_url)
 
-def stockGarbageDay(bot_id):
-    msg = 'GARRRRBAGE DAAAAAAY'
-    img_url = giphySearchRandom('garbage day silent night')
-    return compilePictureMessage(bot_id, msg, img_url)
 
 # imaging functions
 #############################################
@@ -136,3 +132,6 @@ def sendFirstGIF(search_term):
 def sendRandomGIF(search_term):
     r = requests.post(payload_url, data = compilePictureMessage(bot_id_token, '', giphySearchRandom(search_term)))
 
+# send garbage day gif 
+def sendGarbageDay(msg):
+    r = requests.post(payload_url, data = compilePictureMessage(bot_id_token, msg, giphySearchRandom('garbage day silent night')))
